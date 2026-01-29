@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAANG Interview Patterns - Material Design Guide</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- Google Fonts: Roboto & Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        code, pre {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Material Card */
+        .material-card {
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.2), 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12);
+            transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+
+        .material-card:hover {
+            box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+        }
+
+        /* Sidebar Item */
+        .sidebar-item {
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+        .sidebar-item:hover {
+            background-color: #f5f5f5;
+        }
+        .sidebar-item.active {
+            background-color: #e8eaf6;
+            color: #3f51b5;
+            border-left-color: #3f51b5;
+            font-weight: 500;
+        }
+
+        /* Chips */
+        .filter-chip {
+            border-radius: 16px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-chip:hover {
+            background-color: #f5f5f5;
+        }
+        .filter-chip.active {
+            background-color: #e8eaf6;
+            color: #3f51b5;
+            border-color: #3f51b5;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bdbdbd;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9e9e9e;
+        }
+
+        /* Prism overrides */
+        pre[class*="language-"] {
+            margin: 0;
+            border-radius: 4px;
+            max-height: 400px;
+        }
+
+        .tab-button {
+            border-bottom: 2px solid transparent;
+            color: #757575;
+        }
+        .tab-button.active {
+            color: #3f51b5;
+            border-bottom-color: #3f51b5;
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden text-gray-800">
+
+    <!-- Desktop Sidebar -->
+    <aside class="w-72 bg-white shadow-xl z-20 hidden md:flex flex-col h-full">
+        <div class="h-16 bg-indigo-700 text-white flex items-center px-6 shadow-md shrink-0">
+            <span class="material-icons mr-3">school</span>
+            <h1 class="font-bold text-lg tracking-wide">DSA Patterns</h1>
+        </div>
+        <div class="p-4 border-b border-gray-100">
+             <input type="text" id="sidebarSearch" aria-label="Filter patterns" placeholder="Filter patterns..." class="w-full bg-gray-100 border-none rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="flex-1 overflow-y-auto py-2" id="sidebarContent">
+            <!-- Dynamic Content -->
+        </div>
+    </aside>
+
+    <!-- Mobile Sidebar (Drawer) -->
+    <div id="mobileDrawerOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="toggleDrawer()"></div>
+    <aside id="mobileDrawer" class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col">
+        <div class="h-16 bg-indigo-700 text-white flex items-center justify-between px-6 shadow-md shrink-0">
+            <div class="flex items-center">
+                <span class="material-icons mr-3">school</span>
+                <h1 class="font-bold text-lg">DSA Patterns</h1>
+            </div>
+            <button onclick="toggleDrawer()" class="material-icons">close</button>
+        </div>
+        <div class="flex-1 overflow-y-auto py-2" id="mobileSidebarContent">
+            <!-- Dynamic Content -->
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden relative bg-gray-50">
+
+        <!-- App Bar -->
+        <header class="h-16 bg-indigo-600 text-white flex items-center justify-between px-4 md:px-8 shadow-md shrink-0 z-10">
+            <div class="flex items-center">
+                <button onclick="toggleDrawer()" class="md:hidden material-icons mr-4">menu</button>
+                <h2 class="text-xl font-medium">FAANG Interview Guide</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="window.print()" class="hidden md:flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded text-sm font-medium transition">
+                    <span class="material-icons text-sm">print</span> PDF
+                </button>
+                <a href="https://github.com" target="_blank" class="text-white opacity-80 hover:opacity-100">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth" id="mainScroll">
+
+            <div class="max-w-6xl mx-auto">
+
+                <!-- Search & Filter Card -->
+                <div class="material-card p-6 mb-8">
+                    <div class="relative mb-6">
+                        <span class="material-icons absolute left-3 top-3 text-gray-400">search</span>
+                        <input type="text" id="mainSearch" aria-label="Search patterns" placeholder="Search patterns, problems, or tags..." class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                    </div>
+
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-sm font-medium text-gray-500 mr-2">Difficulty:</span>
+                            <div class="filter-chip px-3 py-1 text-sm" data-filter="difficulty" data-value="Easy">Easy</div>
+                            <div class="filter-chip px-3 py-1 text-sm" data-filter="difficulty" data-value="Medium">Medium</div>
+                            <div class="filter-chip px-3 py-1 text-sm" data-filter="difficulty" data-value="Hard">Hard</div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-sm font-medium text-gray-500 mr-2">Frequency:</span>
+                            <div class="filter-chip px-3 py-1 text-sm" data-filter="frequency" data-value="Very High">Very High</div>
+                            <div class="filter-chip px-3 py-1 text-sm" data-filter="frequency" data-value="High">High</div>
+                            <div class="filter-chip px-3 py-1 text-sm" data-filter="frequency" data-value="Medium">Medium</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="material-card p-4 text-center">
+                        <div class="text-3xl font-bold text-indigo-600" id="statTotal">0</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Patterns</div>
+                    </div>
+                    <div class="material-card p-4 text-center">
+                        <div class="text-3xl font-bold text-pink-500" id="statProblems">0</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Problems</div>
+                    </div>
+                    <div class="material-card p-4 text-center">
+                        <div class="text-3xl font-bold text-green-500">Java</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Language</div>
+                    </div>
+                    <div class="material-card p-4 text-center">
+                        <div class="text-3xl font-bold text-orange-500">100%</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide mt-1">Coverage</div>
+                    </div>
+                </div>
+
+                <!-- Patterns List -->
+                <div id="patternsContainer" class="space-y-8">
+                    <!-- Patterns injected here -->
+                </div>
+
+                <!-- Complexity Table -->
+                <div class="mt-12 material-card overflow-hidden">
+                    <div class="p-6 bg-gray-50 border-b border-gray-200">
+                        <h2 class="text-xl font-bold text-gray-800">Time & Space Complexity Reference</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left" id="complexityTable">
+                            <thead class="bg-gray-50 text-gray-600 font-medium text-sm uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-4">Algorithm</th>
+                                    <th class="p-4">Time</th>
+                                    <th class="p-4">Space</th>
+                                    <th class="p-4">Use Cases</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm">
+                                <!-- Table content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <footer class="mt-12 text-center text-gray-500 text-sm pb-8">
+                    <p>Designed for FAANG Interview Preparation</p>
+                </footer>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+    <script>
+        let allPatterns = [];
+        let activeFilters = {
+            difficulty: new Set(),
+            frequency: new Set()
+        };
+
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                allPatterns = data.faangPatterns;
+
+                renderSidebar(allPatterns);
+                renderPatterns(allPatterns);
+                renderComplexity(data.complexity);
+                updateStats();
+                setupInteractions();
+            } catch (e) {
+                console.error("Failed to load data", e);
+            }
+        }
+
+        function renderSidebar(patterns) {
+            const content = patterns.map(p => `
+                <div class="sidebar-item px-6 py-3 text-sm text-gray-700 flex justify-between items-center group" onclick="scrollToPattern(${p.id})">
+                    <span class="group-hover:text-indigo-600 truncate mr-2">${p.id}. ${p.name}</span>
+                    <span class="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded group-hover:bg-indigo-50 group-hover:text-indigo-600">${p.difficulty}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('sidebarContent').innerHTML = content;
+            document.getElementById('mobileSidebarContent').innerHTML = content;
+        }
+
+        function renderPatterns(patterns) {
+            const container = document.getElementById('patternsContainer');
+            if (patterns.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-500">No patterns match your filters.</div>';
+                return;
+            }
+
+            container.innerHTML = patterns.map(p => {
+                const diffColor = p.difficulty.includes('Easy') ? 'bg-green-100 text-green-800' :
+                                  p.difficulty.includes('Medium') ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+
+                const freqColor = p.frequency === 'Very High' ? 'text-red-600' :
+                                  p.frequency === 'High' ? 'text-orange-500' : 'text-blue-500';
+
+                return `
+                <div id="pattern-${p.id}" class="material-card scroll-mt-24">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-sm font-bold text-gray-400">#${p.id}</span>
+                                <h3 class="text-2xl font-bold text-gray-800">${p.name}</h3>
+                            </div>
+                            <div class="flex gap-2 text-sm">
+                                <span class="px-2 py-1 rounded ${diffColor} font-medium">${p.difficulty}</span>
+                                <span class="px-2 py-1 rounded bg-gray-100 text-gray-600">${p.category}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="flex items-center gap-1 ${freqColor} font-medium text-sm">
+                                <span class="material-icons text-base">local_fire_department</span>
+                                ${p.frequency} Freq
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4 leading-relaxed">${p.description}</p>
+
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded mb-6">
+                            <div class="flex items-start">
+                                <span class="material-icons text-indigo-600 mr-2">lightbulb</span>
+                                <div>
+                                    <p class="text-sm font-bold text-indigo-900 mb-1">Key Idea</p>
+                                    <p class="text-sm text-indigo-800">${p.keyIdea}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-50 p-3 rounded border border-gray-100">
+                                <span class="text-xs text-gray-500 uppercase font-bold">Time Complexity</span>
+                                <div class="font-mono text-sm font-medium text-gray-800 mt-1">${p.timeComplexity}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded border border-gray-100">
+                                <span class="text-xs text-gray-500 uppercase font-bold">Space Complexity</span>
+                                <div class="font-mono text-sm font-medium text-gray-800 mt-1">${p.spaceComplexity}</div>
+                            </div>
+                        </div>
+
+                        <!-- Tabs -->
+                        <div class="border-b border-gray-200 mb-4 flex gap-6">
+                            <button class="tab-button active py-2 px-1 font-medium text-sm flex items-center gap-2" onclick="switchTab(this, 'code-${p.id}')">
+                                <span class="material-icons text-base">code</span> Template
+                            </button>
+                            <button class="tab-button py-2 px-1 font-medium text-sm flex items-center gap-2" onclick="switchTab(this, 'probs-${p.id}')">
+                                <span class="material-icons text-base">list</span> Problems (${p.problems.length})
+                            </button>
+                        </div>
+
+                        <!-- Code Tab -->
+                        <div id="code-${p.id}" class="tab-content block">
+                            <div class="relative group">
+                                <button onclick="copyCode(this)" class="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">Copy</button>
+                                <pre><code class="language-java">${escapeHtml(p.template)}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Problems Tab -->
+                        <div id="probs-${p.id}" class="tab-content hidden">
+                            <div class="space-y-2">
+                                ${p.problems.map(prob => `
+                                    <a href="${prob.url}" target="_blank" class="flex items-center justify-between p-3 hover:bg-gray-50 rounded border border-transparent hover:border-gray-200 transition group">
+                                        <span class="text-sm text-indigo-600 font-medium group-hover:underline">${prob.title}</span>
+                                        <span class="text-xs px-2 py-1 rounded ${
+                                            prob.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
+                                            prob.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                                            'bg-red-100 text-red-800'
+                                        }">${prob.difficulty}</span>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            Prism.highlightAll();
+        }
+
+        function renderComplexity(data) {
+            const tbody = document.querySelector('#complexityTable tbody');
+            tbody.innerHTML = data.map(row => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="p-4 font-medium text-gray-800">${row.algorithm}</td>
+                    <td class="p-4 font-mono text-xs text-red-600 bg-red-50 rounded w-max inline-block my-2 mx-4">${row.time}</td>
+                    <td class="p-4 font-mono text-xs text-blue-600 bg-blue-50 rounded w-max">${row.space}</td>
+                    <td class="p-4 text-gray-600">${row.useCases}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').textContent = allPatterns.length;
+            const totalProbs = allPatterns.reduce((acc, p) => acc + p.problems.length, 0);
+            document.getElementById('statProblems').textContent = totalProbs + "+";
+        }
+
+        function scrollToPattern(id) {
+            const el = document.getElementById(`pattern-${id}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Close mobile drawer if open
+                document.getElementById('mobileDrawer').classList.add('-translate-x-full');
+                document.getElementById('mobileDrawerOverlay').classList.add('hidden');
+            }
+        }
+
+        function toggleDrawer() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('mobileDrawerOverlay');
+            drawer.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function switchTab(btn, contentId) {
+            const card = btn.closest('.material-card');
+            // Reset tabs
+            card.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            card.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            card.querySelectorAll('.tab-content').forEach(c => c.classList.remove('block'));
+
+            // Activate
+            btn.classList.add('active');
+            const content = document.getElementById(contentId);
+            content.classList.remove('hidden');
+            content.classList.add('block');
+        }
+
+        function setupInteractions() {
+            // Search
+            document.getElementById('mainSearch').addEventListener('input', (e) => filterPatterns(e.target.value));
+            document.getElementById('sidebarSearch').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.sidebar-item');
+                items.forEach(item => {
+                    const text = item.innerText.toLowerCase();
+                    item.style.display = text.includes(term) ? 'flex' : 'none';
+                });
+            });
+
+            // Chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const type = chip.dataset.filter;
+                    const val = chip.dataset.value;
+
+                    if (activeFilters[type].has(val)) {
+                        activeFilters[type].delete(val);
+                        chip.classList.remove('active');
+                    } else {
+                        activeFilters[type].add(val);
+                        chip.classList.add('active');
+                    }
+                    filterPatterns(document.getElementById('mainSearch').value);
+                });
+            });
+        }
+
+        function filterPatterns(searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            const filtered = allPatterns.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) ||
+                                      p.description.toLowerCase().includes(searchTerm) ||
+                                      p.problems.some(prob => prob.title.toLowerCase().includes(searchTerm));
+
+                const matchesDiff = activeFilters.difficulty.size === 0 || activeFilters.difficulty.has(p.difficulty);
+                const matchesFreq = activeFilters.frequency.size === 0 || activeFilters.frequency.has(p.frequency);
+
+                return matchesSearch && matchesDiff && matchesFreq;
+            });
+            renderPatterns(filtered);
+        }
+
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code);
+            const original = btn.innerText;
+            btn.innerText = "Copied!";
+            setTimeout(() => btn.innerText = original, 2000);
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

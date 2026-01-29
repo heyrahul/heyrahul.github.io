@@ -1,0 +1,761 @@
+{
+  "faangPatterns": [
+    {
+      "id": 1,
+      "name": "Sliding Window",
+      "category": "Array/String",
+      "difficulty": "Medium",
+      "frequency": "Very High",
+      "description": "Optimize subarray/substring problems from O(n²) to O(n)",
+      "keyIdea": "Maintain a window with two pointers, expand/shrink based on conditions",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(k)",
+      "template": "// Sliding Window Template\npublic int slidingWindow(int[] nums, int k) {\n    int left = 0, right = 0;\n    int windowSum = 0, result = 0;\n    \n    while (right < nums.length) {\n        // Expand window\n        windowSum += nums[right];\n        \n        // Shrink window if needed\n        while (/* condition violated */) {\n            windowSum -= nums[left];\n            left++;\n        }\n        \n        // Update result\n        result = Math.max(result, right - left + 1);\n        right++;\n    }\n    \n    return result;\n}",
+      "problems": [
+        {"title": "3. Longest Substring Without Repeating Characters", "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/", "difficulty": "Medium"},
+        {"title": "76. Minimum Window Substring", "url": "https://leetcode.com/problems/minimum-window-substring/", "difficulty": "Hard"},
+        {"title": "438. Find All Anagrams in a String", "url": "https://leetcode.com/problems/find-all-anagrams-in-a-string/", "difficulty": "Medium"},
+        {"title": "567. Permutation in String", "url": "https://leetcode.com/problems/permutation-in-string/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Two Pointers",
+      "category": "Array/String",
+      "difficulty": "Easy-Medium",
+      "frequency": "Very High",
+      "description": "Efficient array/string traversal using two pointers",
+      "keyIdea": "Use left/right pointers moving towards each other or same direction",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Two Pointers Template\npublic int twoPointers(int[] nums, int target) {\n    int left = 0, right = nums.length - 1;\n    \n    while (left < right) {\n        int sum = nums[left] + nums[right];\n        \n        if (sum == target) {\n            return sum; // or process\n        } else if (sum < target) {\n            left++;\n        } else {\n            right--;\n        }\n    }\n    \n    return -1;\n}",
+      "problems": [
+        {"title": "15. 3Sum", "url": "https://leetcode.com/problems/3sum/", "difficulty": "Medium"},
+        {"title": "11. Container With Most Water", "url": "https://leetcode.com/problems/container-with-most-water/", "difficulty": "Medium"},
+        {"title": "42. Trapping Rain Water", "url": "https://leetcode.com/problems/trapping-rain-water/", "difficulty": "Hard"},
+        {"title": "167. Two Sum II", "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Fast & Slow Pointers",
+      "category": "Linked List",
+      "difficulty": "Easy-Medium",
+      "frequency": "High",
+      "description": "Detect cycles and find middle elements in linked lists",
+      "keyIdea": "Fast pointer moves 2x speed, slow moves 1x; they meet if cycle exists",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Fast & Slow Pointers Template\npublic ListNode detectCycle(ListNode head) {\n    ListNode slow = head, fast = head;\n    \n    // Detect cycle\n    while (fast != null && fast.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n        \n        if (slow == fast) {\n            // Cycle detected\n            slow = head;\n            while (slow != fast) {\n                slow = slow.next;\n                fast = fast.next;\n            }\n            return slow; // Cycle start\n        }\n    }\n    \n    return null; // No cycle\n}",
+      "problems": [
+        {"title": "141. Linked List Cycle", "url": "https://leetcode.com/problems/linked-list-cycle/", "difficulty": "Easy"},
+        {"title": "142. Linked List Cycle II", "url": "https://leetcode.com/problems/linked-list-cycle-ii/", "difficulty": "Medium"},
+        {"title": "876. Middle of Linked List", "url": "https://leetcode.com/problems/middle-of-the-linked-list/", "difficulty": "Easy"},
+        {"title": "234. Palindrome Linked List", "url": "https://leetcode.com/problems/palindrome-linked-list/", "difficulty": "Easy"}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Merge Intervals",
+      "category": "Intervals",
+      "difficulty": "Medium",
+      "frequency": "Very High",
+      "description": "Handle overlapping intervals problems",
+      "keyIdea": "Sort intervals by start time, then merge overlapping ones",
+      "timeComplexity": "O(n log n)",
+      "spaceComplexity": "O(n)",
+      "template": "// Merge Intervals Template\npublic int[][] merge(int[][] intervals) {\n    if (intervals.length <= 1) return intervals;\n    \n    // Sort by start time\n    Arrays.sort(intervals, (a, b) -> a[0] - b[0]);\n    \n    List<int[]> result = new ArrayList<>();\n    int[] current = intervals[0];\n    \n    for (int i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] <= current[1]) {\n            // Overlapping - merge\n            current[1] = Math.max(current[1], intervals[i][1]);\n        } else {\n            // Non-overlapping - add current\n            result.add(current);\n            current = intervals[i];\n        }\n    }\n    result.add(current);\n    \n    return result.toArray(new int[result.size()][]);\n}",
+      "problems": [
+        {"title": "56. Merge Intervals", "url": "https://leetcode.com/problems/merge-intervals/", "difficulty": "Medium"},
+        {"title": "57. Insert Interval", "url": "https://leetcode.com/problems/insert-interval/", "difficulty": "Medium"},
+        {"title": "435. Non-overlapping Intervals", "url": "https://leetcode.com/problems/non-overlapping-intervals/", "difficulty": "Medium"},
+        {"title": "252. Meeting Rooms", "url": "https://leetcode.com/problems/meeting-rooms/", "difficulty": "Easy"}
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Binary Search",
+      "category": "Search",
+      "difficulty": "Medium",
+      "frequency": "Very High",
+      "description": "Search in sorted space or find optimal answer",
+      "keyIdea": "Halve search space repeatedly; also works on answer space",
+      "timeComplexity": "O(log n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Binary Search Template\npublic int binarySearch(int[] nums, int target) {\n    int left = 0, right = nums.length - 1;\n    \n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        \n        if (nums[mid] == target) {\n            return mid;\n        } else if (nums[mid] < target) {\n            left = mid + 1;\n        } else {\n            right = mid - 1;\n        }\n    }\n    \n    return -1; // Not found\n}\n\n// Binary Search on Answer Space\npublic int binarySearchAnswer(int[] nums) {\n    int left = 0, right = Integer.MAX_VALUE;\n    int result = -1;\n    \n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        \n        if (isValid(nums, mid)) {\n            result = mid;\n            right = mid - 1; // Try smaller\n        } else {\n            left = mid + 1; // Need larger\n        }\n    }\n    \n    return result;\n}",
+      "problems": [
+        {"title": "33. Search in Rotated Sorted Array", "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/", "difficulty": "Medium"},
+        {"title": "34. Find First and Last Position", "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/", "difficulty": "Medium"},
+        {"title": "153. Find Minimum in Rotated Sorted Array", "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/", "difficulty": "Medium"},
+        {"title": "410. Split Array Largest Sum", "url": "https://leetcode.com/problems/split-array-largest-sum/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 6,
+      "name": "BFS (Breadth-First Search)",
+      "category": "Tree/Graph",
+      "difficulty": "Medium",
+      "frequency": "Very High",
+      "description": "Level-order traversal and shortest path problems",
+      "keyIdea": "Explore all neighbors at current level before going deeper",
+      "timeComplexity": "O(V + E)",
+      "spaceComplexity": "O(V)",
+      "template": "// BFS Template for Tree\npublic List<List<Integer>> levelOrder(TreeNode root) {\n    List<List<Integer>> result = new ArrayList<>();\n    if (root == null) return result;\n    \n    Queue<TreeNode> queue = new LinkedList<>();\n    queue.offer(root);\n    \n    while (!queue.isEmpty()) {\n        int size = queue.size();\n        List<Integer> level = new ArrayList<>();\n        \n        for (int i = 0; i < size; i++) {\n            TreeNode node = queue.poll();\n            level.add(node.val);\n            \n            if (node.left != null) queue.offer(node.left);\n            if (node.right != null) queue.offer(node.right);\n        }\n        \n        result.add(level);\n    }\n    \n    return result;\n}\n\n// BFS for Graph\npublic int bfsGraph(int[][] graph, int start, int end) {\n    Queue<Integer> queue = new LinkedList<>();\n    Set<Integer> visited = new HashSet<>();\n    \n    queue.offer(start);\n    visited.add(start);\n    int steps = 0;\n    \n    while (!queue.isEmpty()) {\n        int size = queue.size();\n        for (int i = 0; i < size; i++) {\n            int node = queue.poll();\n            if (node == end) return steps;\n            \n            for (int neighbor : graph[node]) {\n                if (!visited.contains(neighbor)) {\n                    queue.offer(neighbor);\n                    visited.add(neighbor);\n                }\n            }\n        }\n        steps++;\n    }\n    \n    return -1;\n}",
+      "problems": [
+        {"title": "102. Binary Tree Level Order Traversal", "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/", "difficulty": "Medium"},
+        {"title": "127. Word Ladder", "url": "https://leetcode.com/problems/word-ladder/", "difficulty": "Hard"},
+        {"title": "200. Number of Islands", "url": "https://leetcode.com/problems/number-of-islands/", "difficulty": "Medium"},
+        {"title": "994. Rotting Oranges", "url": "https://leetcode.com/problems/rotting-oranges/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 7,
+      "name": "DFS (Depth-First Search)",
+      "category": "Tree/Graph",
+      "difficulty": "Medium",
+      "frequency": "Very High",
+      "description": "Explore paths deeply before backtracking",
+      "keyIdea": "Recursively explore each path to its end",
+      "timeComplexity": "O(V + E)",
+      "spaceComplexity": "O(h) or O(V)",
+      "template": "// DFS Template (Recursive)\npublic void dfs(TreeNode root, List<Integer> result) {\n    if (root == null) return;\n    \n    result.add(root.val); // Pre-order\n    dfs(root.left, result);\n    dfs(root.right, result);\n}\n\n// DFS for Graph\npublic void dfsGraph(int node, int[][] graph, boolean[] visited) {\n    visited[node] = true;\n    \n    for (int neighbor : graph[node]) {\n        if (!visited[neighbor]) {\n            dfsGraph(neighbor, graph, visited);\n        }\n    }\n}\n\n// DFS Iterative\npublic void dfsIterative(TreeNode root) {\n    if (root == null) return;\n    \n    Stack<TreeNode> stack = new Stack<>();\n    stack.push(root);\n    \n    while (!stack.isEmpty()) {\n        TreeNode node = stack.pop();\n        // Process node\n        \n        if (node.right != null) stack.push(node.right);\n        if (node.left != null) stack.push(node.left);\n    }\n}",
+      "problems": [
+        {"title": "104. Maximum Depth of Binary Tree", "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/", "difficulty": "Easy"},
+        {"title": "543. Diameter of Binary Tree", "url": "https://leetcode.com/problems/diameter-of-binary-tree/", "difficulty": "Easy"},
+        {"title": "236. Lowest Common Ancestor", "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/", "difficulty": "Medium"},
+        {"title": "124. Binary Tree Maximum Path Sum", "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Backtracking",
+      "category": "Recursion",
+      "difficulty": "Medium-Hard",
+      "frequency": "Very High",
+      "description": "Explore all possibilities with pruning",
+      "keyIdea": "Build solution incrementally, backtrack on invalid paths",
+      "timeComplexity": "O(2^n) or O(n!)",
+      "spaceComplexity": "O(n)",
+      "template": "// Backtracking Template\npublic List<List<Integer>> backtrack(int[] nums) {\n    List<List<Integer>> result = new ArrayList<>();\n    backtrackHelper(nums, 0, new ArrayList<>(), result);\n    return result;\n}\n\nprivate void backtrackHelper(int[] nums, int start, \n                            List<Integer> current, \n                            List<List<Integer>> result) {\n    // Base case - add solution\n    result.add(new ArrayList<>(current));\n    \n    for (int i = start; i < nums.length; i++) {\n        // Choose\n        current.add(nums[i]);\n        \n        // Explore\n        backtrackHelper(nums, i + 1, current, result);\n        \n        // Unchoose (backtrack)\n        current.remove(current.size() - 1);\n    }\n}",
+      "problems": [
+        {"title": "46. Permutations", "url": "https://leetcode.com/problems/permutations/", "difficulty": "Medium"},
+        {"title": "78. Subsets", "url": "https://leetcode.com/problems/subsets/", "difficulty": "Medium"},
+        {"title": "39. Combination Sum", "url": "https://leetcode.com/problems/combination-sum/", "difficulty": "Medium"},
+        {"title": "79. Word Search", "url": "https://leetcode.com/problems/word-search/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Dynamic Programming (1D)",
+      "category": "DP",
+      "difficulty": "Medium-Hard",
+      "frequency": "Very High",
+      "description": "Optimize recursive solutions using memoization",
+      "keyIdea": "Break into subproblems, cache results to avoid recomputation",
+      "timeComplexity": "O(n) to O(n²)",
+      "spaceComplexity": "O(n)",
+      "template": "// 1D DP Template - Bottom Up\npublic int dp1D(int[] nums) {\n    int n = nums.length;\n    int[] dp = new int[n + 1];\n    \n    // Base case\n    dp[0] = 0;\n    dp[1] = nums[0];\n    \n    // Fill DP table\n    for (int i = 2; i <= n; i++) {\n        dp[i] = Math.max(dp[i-1], dp[i-2] + nums[i-1]);\n    }\n    \n    return dp[n];\n}\n\n// Top Down with Memoization\npublic int dpTopDown(int[] nums) {\n    int[] memo = new int[nums.length];\n    Arrays.fill(memo, -1);\n    return helper(nums, nums.length - 1, memo);\n}\n\nprivate int helper(int[] nums, int i, int[] memo) {\n    if (i < 0) return 0;\n    if (memo[i] != -1) return memo[i];\n    \n    memo[i] = Math.max(helper(nums, i-1, memo), \n                      helper(nums, i-2, memo) + nums[i]);\n    return memo[i];\n}",
+      "problems": [
+        {"title": "70. Climbing Stairs", "url": "https://leetcode.com/problems/climbing-stairs/", "difficulty": "Easy"},
+        {"title": "198. House Robber", "url": "https://leetcode.com/problems/house-robber/", "difficulty": "Medium"},
+        {"title": "300. Longest Increasing Subsequence", "url": "https://leetcode.com/problems/longest-increasing-subsequence/", "difficulty": "Medium"},
+        {"title": "322. Coin Change", "url": "https://leetcode.com/problems/coin-change/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Dynamic Programming (2D)",
+      "category": "DP",
+      "difficulty": "Hard",
+      "frequency": "High",
+      "description": "Solve problems with two changing dimensions",
+      "keyIdea": "Use 2D table where dp[i][j] represents subproblem solution",
+      "timeComplexity": "O(m × n)",
+      "spaceComplexity": "O(m × n)",
+      "template": "// 2D DP Template\npublic int dp2D(String s1, String s2) {\n    int m = s1.length(), n = s2.length();\n    int[][] dp = new int[m + 1][n + 1];\n    \n    // Initialize base cases\n    for (int i = 0; i <= m; i++) dp[i][0] = i;\n    for (int j = 0; j <= n; j++) dp[0][j] = j;\n    \n    // Fill DP table\n    for (int i = 1; i <= m; i++) {\n        for (int j = 1; j <= n; j++) {\n            if (s1.charAt(i-1) == s2.charAt(j-1)) {\n                dp[i][j] = dp[i-1][j-1];\n            } else {\n                dp[i][j] = 1 + Math.min(dp[i-1][j], \n                           Math.min(dp[i][j-1], dp[i-1][j-1]));\n            }\n        }\n    }\n    \n    return dp[m][n];\n}",
+      "problems": [
+        {"title": "72. Edit Distance", "url": "https://leetcode.com/problems/edit-distance/", "difficulty": "Hard"},
+        {"title": "1143. Longest Common Subsequence", "url": "https://leetcode.com/problems/longest-common-subsequence/", "difficulty": "Medium"},
+        {"title": "62. Unique Paths", "url": "https://leetcode.com/problems/unique-paths/", "difficulty": "Medium"},
+        {"title": "10. Regular Expression Matching", "url": "https://leetcode.com/problems/regular-expression-matching/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Heap / Priority Queue",
+      "category": "Data Structure",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Efficiently find min/max elements",
+      "keyIdea": "Use heap for O(log n) insertion and O(1) peek operations",
+      "timeComplexity": "O(n log k)",
+      "spaceComplexity": "O(k)",
+      "template": "// Heap Template - Min Heap\npublic int[] topK(int[] nums, int k) {\n    PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n    \n    for (int num : nums) {\n        minHeap.offer(num);\n        if (minHeap.size() > k) {\n            minHeap.poll();\n        }\n    }\n    \n    int[] result = new int[k];\n    for (int i = 0; i < k; i++) {\n        result[i] = minHeap.poll();\n    }\n    return result;\n}\n\n// Max Heap\nPriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);\n\n// Custom Comparator\nPriorityQueue<int[]> pq = new PriorityQueue<>(\n    (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]\n);",
+      "problems": [
+        {"title": "215. Kth Largest Element", "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/", "difficulty": "Medium"},
+        {"title": "23. Merge k Sorted Lists", "url": "https://leetcode.com/problems/merge-k-sorted-lists/", "difficulty": "Hard"},
+        {"title": "347. Top K Frequent Elements", "url": "https://leetcode.com/problems/top-k-frequent-elements/", "difficulty": "Medium"},
+        {"title": "295. Find Median from Data Stream", "url": "https://leetcode.com/problems/find-median-from-data-stream/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 12,
+      "name": "HashMap / HashSet",
+      "category": "Data Structure",
+      "difficulty": "Easy-Medium",
+      "frequency": "Very High",
+      "description": "Fast lookups and frequency counting",
+      "keyIdea": "Use hash table for O(1) average case operations",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "template": "// HashMap Template\npublic int hashMapPattern(int[] nums, int target) {\n    Map<Integer, Integer> map = new HashMap<>();\n    \n    for (int i = 0; i < nums.length; i++) {\n        int complement = target - nums[i];\n        \n        if (map.containsKey(complement)) {\n            return map.get(complement);\n        }\n        \n        map.put(nums[i], i);\n    }\n    \n    return -1;\n}\n\n// Frequency Counter\npublic Map<Integer, Integer> countFrequency(int[] nums) {\n    Map<Integer, Integer> freq = new HashMap<>();\n    \n    for (int num : nums) {\n        freq.put(num, freq.getOrDefault(num, 0) + 1);\n    }\n    \n    return freq;\n}",
+      "problems": [
+        {"title": "1. Two Sum", "url": "https://leetcode.com/problems/two-sum/", "difficulty": "Easy"},
+        {"title": "49. Group Anagrams", "url": "https://leetcode.com/problems/group-anagrams/", "difficulty": "Medium"},
+        {"title": "146. LRU Cache", "url": "https://leetcode.com/problems/lru-cache/", "difficulty": "Medium"},
+        {"title": "380. Insert Delete GetRandom O(1)", "url": "https://leetcode.com/problems/insert-delete-getrandom-o1/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Trie (Prefix Tree)",
+      "category": "Data Structure",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Efficient prefix-based string operations",
+      "keyIdea": "Tree structure where each node represents a character",
+      "timeComplexity": "O(m) per operation",
+      "spaceComplexity": "O(ALPHABET_SIZE × N × M)",
+      "template": "// Trie Template\nclass TrieNode {\n    TrieNode[] children = new TrieNode[26];\n    boolean isWord = false;\n}\n\nclass Trie {\n    private TrieNode root;\n    \n    public Trie() {\n        root = new TrieNode();\n    }\n    \n    public void insert(String word) {\n        TrieNode node = root;\n        for (char c : word.toCharArray()) {\n            int idx = c - 'a';\n            if (node.children[idx] == null) {\n                node.children[idx] = new TrieNode();\n            }\n            node = node.children[idx];\n        }\n        node.isWord = true;\n    }\n    \n    public boolean search(String word) {\n        TrieNode node = searchPrefix(word);\n        return node != null && node.isWord;\n    }\n    \n    public boolean startsWith(String prefix) {\n        return searchPrefix(prefix) != null;\n    }\n    \n    private TrieNode searchPrefix(String prefix) {\n        TrieNode node = root;\n        for (char c : prefix.toCharArray()) {\n            int idx = c - 'a';\n            if (node.children[idx] == null) return null;\n            node = node.children[idx];\n        }\n        return node;\n    }\n}",
+      "problems": [
+        {"title": "208. Implement Trie", "url": "https://leetcode.com/problems/implement-trie-prefix-tree/", "difficulty": "Medium"},
+        {"title": "211. Design Add and Search Words", "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/", "difficulty": "Medium"},
+        {"title": "212. Word Search II", "url": "https://leetcode.com/problems/word-search-ii/", "difficulty": "Hard"},
+        {"title": "1268. Search Suggestions System", "url": "https://leetcode.com/problems/search-suggestions-system/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Union-Find (Disjoint Set)",
+      "category": "Graph",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Track connected components efficiently",
+      "keyIdea": "Use parent array with path compression and union by rank",
+      "timeComplexity": "O(α(n)) amortized",
+      "spaceComplexity": "O(n)",
+      "template": "// Union-Find Template\nclass UnionFind {\n    private int[] parent;\n    private int[] rank;\n    \n    public UnionFind(int n) {\n        parent = new int[n];\n        rank = new int[n];\n        for (int i = 0; i < n; i++) {\n            parent[i] = i;\n            rank[i] = 1;\n        }\n    }\n    \n    public int find(int x) {\n        if (parent[x] != x) {\n            parent[x] = find(parent[x]); // Path compression\n        }\n        return parent[x];\n    }\n    \n    public boolean union(int x, int y) {\n        int rootX = find(x);\n        int rootY = find(y);\n        \n        if (rootX == rootY) return false;\n        \n        // Union by rank\n        if (rank[rootX] > rank[rootY]) {\n            parent[rootY] = rootX;\n        } else if (rank[rootX] < rank[rootY]) {\n            parent[rootX] = rootY;\n        } else {\n            parent[rootY] = rootX;\n            rank[rootX]++;\n        }\n        \n        return true;\n    }\n    \n    public boolean connected(int x, int y) {\n        return find(x) == find(y);\n    }\n}",
+      "problems": [
+        {"title": "200. Number of Islands", "url": "https://leetcode.com/problems/number-of-islands/", "difficulty": "Medium"},
+        {"title": "547. Number of Provinces", "url": "https://leetcode.com/problems/number-of-provinces/", "difficulty": "Medium"},
+        {"title": "684. Redundant Connection", "url": "https://leetcode.com/problems/redundant-connection/", "difficulty": "Medium"},
+        {"title": "323. Number of Connected Components", "url": "https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Topological Sort",
+      "category": "Graph",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Order tasks with dependencies (DAG)",
+      "keyIdea": "Process nodes with zero in-degree first (Kahn's algorithm)",
+      "timeComplexity": "O(V + E)",
+      "spaceComplexity": "O(V)",
+      "template": "// Topological Sort - Kahn's Algorithm\npublic List<Integer> topologicalSort(int numCourses, int[][] prerequisites) {\n    // Build graph and in-degree array\n    List<Integer>[] graph = new ArrayList[numCourses];\n    int[] inDegree = new int[numCourses];\n    \n    for (int i = 0; i < numCourses; i++) {\n        graph[i] = new ArrayList<>();\n    }\n    \n    for (int[] prereq : prerequisites) {\n        graph[prereq[1]].add(prereq[0]);\n        inDegree[prereq[0]]++;\n    }\n    \n    // Add all nodes with in-degree 0\n    Queue<Integer> queue = new LinkedList<>();\n    for (int i = 0; i < numCourses; i++) {\n        if (inDegree[i] == 0) {\n            queue.offer(i);\n        }\n    }\n    \n    // Process nodes\n    List<Integer> result = new ArrayList<>();\n    while (!queue.isEmpty()) {\n        int course = queue.poll();\n        result.add(course);\n        \n        for (int next : graph[course]) {\n            inDegree[next]--;\n            if (inDegree[next] == 0) {\n                queue.offer(next);\n            }\n        }\n    }\n    \n    return result.size() == numCourses ? result : new ArrayList<>();\n}",
+      "problems": [
+        {"title": "207. Course Schedule", "url": "https://leetcode.com/problems/course-schedule/", "difficulty": "Medium"},
+        {"title": "210. Course Schedule II", "url": "https://leetcode.com/problems/course-schedule-ii/", "difficulty": "Medium"},
+        {"title": "310. Minimum Height Trees", "url": "https://leetcode.com/problems/minimum-height-trees/", "difficulty": "Medium"},
+        {"title": "269. Alien Dictionary", "url": "https://leetcode.com/problems/alien-dictionary/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Monotonic Stack",
+      "category": "Stack",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Find next greater/smaller elements",
+      "keyIdea": "Maintain increasing or decreasing stack",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "template": "// Monotonic Stack Template - Next Greater Element\npublic int[] nextGreaterElement(int[] nums) {\n    int n = nums.length;\n    int[] result = new int[n];\n    Arrays.fill(result, -1);\n    Stack<Integer> stack = new Stack<>();\n    \n    for (int i = 0; i < n; i++) {\n        // Pop smaller elements\n        while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {\n            int idx = stack.pop();\n            result[idx] = nums[i];\n        }\n        stack.push(i);\n    }\n    \n    return result;\n}\n\n// Monotonic Decreasing Stack\npublic int[] nextSmallerElement(int[] nums) {\n    int n = nums.length;\n    int[] result = new int[n];\n    Arrays.fill(result, -1);\n    Stack<Integer> stack = new Stack<>();\n    \n    for (int i = 0; i < n; i++) {\n        while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {\n            int idx = stack.pop();\n            result[idx] = nums[i];\n        }\n        stack.push(i);\n    }\n    \n    return result;\n}",
+      "problems": [
+        {"title": "739. Daily Temperatures", "url": "https://leetcode.com/problems/daily-temperatures/", "difficulty": "Medium"},
+        {"title": "496. Next Greater Element I", "url": "https://leetcode.com/problems/next-greater-element-i/", "difficulty": "Easy"},
+        {"title": "503. Next Greater Element II", "url": "https://leetcode.com/problems/next-greater-element-ii/", "difficulty": "Medium"},
+        {"title": "84. Largest Rectangle in Histogram", "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Greedy Algorithm",
+      "category": "Algorithm",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Make locally optimal choices",
+      "keyIdea": "Choose best option at each step without reconsidering",
+      "timeComplexity": "O(n log n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Greedy Template - Interval Scheduling\npublic int maxEvents(int[][] events) {\n    // Sort by some criteria\n    Arrays.sort(events, (a, b) -> a[1] - b[1]);\n    \n    int count = 0;\n    int lastEnd = -1;\n    \n    for (int[] event : events) {\n        // Greedy choice\n        if (event[0] > lastEnd) {\n            count++;\n            lastEnd = event[1];\n        }\n    }\n    \n    return count;\n}\n\n// Greedy with Priority Queue\npublic int greedyWithHeap(int[] nums) {\n    PriorityQueue<Integer> pq = new PriorityQueue<>();\n    int result = 0;\n    \n    for (int num : nums) {\n        pq.offer(num);\n        // Make greedy decision\n        if (pq.size() > 1 && pq.peek() < num) {\n            result += pq.poll();\n        }\n    }\n    \n    return result;\n}",
+      "problems": [
+        {"title": "55. Jump Game", "url": "https://leetcode.com/problems/jump-game/", "difficulty": "Medium"},
+        {"title": "45. Jump Game II", "url": "https://leetcode.com/problems/jump-game-ii/", "difficulty": "Medium"},
+        {"title": "435. Non-overlapping Intervals", "url": "https://leetcode.com/problems/non-overlapping-intervals/", "difficulty": "Medium"},
+        {"title": "134. Gas Station", "url": "https://leetcode.com/problems/gas-station/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Prefix Sum",
+      "category": "Array",
+      "difficulty": "Easy-Medium",
+      "frequency": "High",
+      "description": "Precompute cumulative sums for range queries",
+      "keyIdea": "prefix[i] = sum of elements from 0 to i",
+      "timeComplexity": "O(n) preprocessing, O(1) query",
+      "spaceComplexity": "O(n)",
+      "template": "// Prefix Sum Template\nclass PrefixSum {\n    private int[] prefix;\n    \n    public PrefixSum(int[] nums) {\n        int n = nums.length;\n        prefix = new int[n + 1];\n        \n        for (int i = 0; i < n; i++) {\n            prefix[i + 1] = prefix[i] + nums[i];\n        }\n    }\n    \n    // Sum from index left to right (inclusive)\n    public int rangeSum(int left, int right) {\n        return prefix[right + 1] - prefix[left];\n    }\n}\n\n// 2D Prefix Sum\nclass PrefixSum2D {\n    private int[][] prefix;\n    \n    public PrefixSum2D(int[][] matrix) {\n        int m = matrix.length, n = matrix[0].length;\n        prefix = new int[m + 1][n + 1];\n        \n        for (int i = 1; i <= m; i++) {\n            for (int j = 1; j <= n; j++) {\n                prefix[i][j] = matrix[i-1][j-1] \n                    + prefix[i-1][j] \n                    + prefix[i][j-1] \n                    - prefix[i-1][j-1];\n            }\n        }\n    }\n    \n    public int sumRegion(int r1, int c1, int r2, int c2) {\n        return prefix[r2+1][c2+1] \n            - prefix[r1][c2+1] \n            - prefix[r2+1][c1] \n            + prefix[r1][c1];\n    }\n}",
+      "problems": [
+        {"title": "560. Subarray Sum Equals K", "url": "https://leetcode.com/problems/subarray-sum-equals-k/", "difficulty": "Medium"},
+        {"title": "304. Range Sum Query 2D", "url": "https://leetcode.com/problems/range-sum-query-2d-immutable/", "difficulty": "Medium"},
+        {"title": "523. Continuous Subarray Sum", "url": "https://leetcode.com/problems/continuous-subarray-sum/", "difficulty": "Medium"},
+        {"title": "974. Subarray Sums Divisible by K", "url": "https://leetcode.com/problems/subarray-sums-divisible-by-k/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Bit Manipulation",
+      "category": "Math",
+      "difficulty": "Medium",
+      "frequency": "Medium",
+      "description": "Solve problems using bitwise operations",
+      "keyIdea": "Use &, |, ^, ~, <<, >> for efficient operations",
+      "timeComplexity": "O(1) to O(log n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Bit Manipulation Template\npublic class BitManipulation {\n    // Check if bit is set\n    public boolean isBitSet(int num, int i) {\n        return (num & (1 << i)) != 0;\n    }\n    \n    // Set bit\n    public int setBit(int num, int i) {\n        return num | (1 << i);\n    }\n    \n    // Clear bit\n    public int clearBit(int num, int i) {\n        return num & ~(1 << i);\n    }\n    \n    // Toggle bit\n    public int toggleBit(int num, int i) {\n        return num ^ (1 << i);\n    }\n    \n    // Count set bits\n    public int countSetBits(int num) {\n        int count = 0;\n        while (num > 0) {\n            count++;\n            num &= (num - 1); // Remove rightmost set bit\n        }\n        return count;\n    }\n    \n    // Check power of 2\n    public boolean isPowerOfTwo(int num) {\n        return num > 0 && (num & (num - 1)) == 0;\n    }\n    \n    // XOR of all elements (find single number)\n    public int findSingle(int[] nums) {\n        int xor = 0;\n        for (int num : nums) {\n            xor ^= num;\n        }\n        return xor;\n    }\n}",
+      "problems": [
+        {"title": "136. Single Number", "url": "https://leetcode.com/problems/single-number/", "difficulty": "Easy"},
+        {"title": "191. Number of 1 Bits", "url": "https://leetcode.com/problems/number-of-1-bits/", "difficulty": "Easy"},
+        {"title": "338. Counting Bits", "url": "https://leetcode.com/problems/counting-bits/", "difficulty": "Easy"},
+        {"title": "201. Bitwise AND of Numbers Range", "url": "https://leetcode.com/problems/bitwise-and-of-numbers-range/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Kadane's Algorithm",
+      "category": "Array",
+      "difficulty": "Medium",
+      "frequency": "High",
+      "description": "Find maximum sum subarray",
+      "keyIdea": "Keep running sum, reset when negative",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Kadane's Algorithm Template\npublic int maxSubArray(int[] nums) {\n    int maxSum = nums[0];\n    int currentSum = nums[0];\n    \n    for (int i = 1; i < nums.length; i++) {\n        // Either extend current subarray or start new one\n        currentSum = Math.max(nums[i], currentSum + nums[i]);\n        maxSum = Math.max(maxSum, currentSum);\n    }\n    \n    return maxSum;\n}\n\n// Kadane's with indices\npublic int[] maxSubArrayWithIndices(int[] nums) {\n    int maxSum = nums[0];\n    int currentSum = nums[0];\n    int start = 0, end = 0, tempStart = 0;\n    \n    for (int i = 1; i < nums.length; i++) {\n        if (currentSum < 0) {\n            currentSum = nums[i];\n            tempStart = i;\n        } else {\n            currentSum += nums[i];\n        }\n        \n        if (currentSum > maxSum) {\n            maxSum = currentSum;\n            start = tempStart;\n            end = i;\n        }\n    }\n    \n    return new int[]{maxSum, start, end};\n}",
+      "problems": [
+        {"title": "53. Maximum Subarray", "url": "https://leetcode.com/problems/maximum-subarray/", "difficulty": "Medium"},
+        {"title": "918. Maximum Sum Circular Subarray", "url": "https://leetcode.com/problems/maximum-sum-circular-subarray/", "difficulty": "Medium"},
+        {"title": "152. Maximum Product Subarray", "url": "https://leetcode.com/problems/maximum-product-subarray/", "difficulty": "Medium"},
+        {"title": "1186. Maximum Subarray Sum with One Deletion", "url": "https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Dijkstra's Algorithm",
+      "category": "Graph",
+      "difficulty": "Hard",
+      "frequency": "Medium",
+      "description": "Find shortest path in weighted graph",
+      "keyIdea": "Greedily select nearest unvisited node",
+      "timeComplexity": "O((V + E) log V)",
+      "spaceComplexity": "O(V)",
+      "template": "// Dijkstra's Algorithm Template\npublic int[] dijkstra(int n, int[][] edges, int start) {\n    // Build adjacency list\n    List<int[]>[] graph = new ArrayList[n];\n    for (int i = 0; i < n; i++) {\n        graph[i] = new ArrayList<>();\n    }\n    \n    for (int[] edge : edges) {\n        int u = edge[0], v = edge[1], weight = edge[2];\n        graph[u].add(new int[]{v, weight});\n    }\n    \n    // Distance array\n    int[] dist = new int[n];\n    Arrays.fill(dist, Integer.MAX_VALUE);\n    dist[start] = 0;\n    \n    // Priority Queue: [node, distance]\n    PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);\n    pq.offer(new int[]{start, 0});\n    \n    while (!pq.isEmpty()) {\n        int[] curr = pq.poll();\n        int node = curr[0];\n        int distance = curr[1];\n        \n        if (distance > dist[node]) continue;\n        \n        for (int[] neighbor : graph[node]) {\n            int nextNode = neighbor[0];\n            int weight = neighbor[1];\n            int newDist = distance + weight;\n            \n            if (newDist < dist[nextNode]) {\n                dist[nextNode] = newDist;\n                pq.offer(new int[]{nextNode, newDist});\n            }\n        }\n    }\n    \n    return dist;\n}",
+      "problems": [
+        {"title": "743. Network Delay Time", "url": "https://leetcode.com/problems/network-delay-time/", "difficulty": "Medium"},
+        {"title": "787. Cheapest Flights Within K Stops", "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/", "difficulty": "Medium"},
+        {"title": "1514. Path with Maximum Probability", "url": "https://leetcode.com/problems/path-with-maximum-probability/", "difficulty": "Medium"},
+        {"title": "1631. Path With Minimum Effort", "url": "https://leetcode.com/problems/path-with-minimum-effort/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Knapsack (0/1)",
+      "category": "DP",
+      "difficulty": "Hard",
+      "frequency": "High",
+      "description": "Choose items to maximize value within weight limit",
+      "keyIdea": "DP table dp[i][w] = max value using first i items with weight w",
+      "timeComplexity": "O(n × W)",
+      "spaceComplexity": "O(n × W)",
+      "template": "// 0/1 Knapsack Template\npublic int knapsack(int[] weights, int[] values, int capacity) {\n    int n = weights.length;\n    int[][] dp = new int[n + 1][capacity + 1];\n    \n    for (int i = 1; i <= n; i++) {\n        for (int w = 1; w <= capacity; w++) {\n            if (weights[i-1] <= w) {\n                // Can include item i\n                dp[i][w] = Math.max(\n                    dp[i-1][w], // Don't include\n                    dp[i-1][w - weights[i-1]] + values[i-1] // Include\n                );\n            } else {\n                // Can't include item i\n                dp[i][w] = dp[i-1][w];\n            }\n        }\n    }\n    \n    return dp[n][capacity];\n}\n\n// Space Optimized O(W)\npublic int knapsackOptimized(int[] weights, int[] values, int capacity) {\n    int[] dp = new int[capacity + 1];\n    \n    for (int i = 0; i < weights.length; i++) {\n        for (int w = capacity; w >= weights[i]; w--) {\n            dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);\n        }\n    }\n    \n    return dp[capacity];\n}",
+      "problems": [
+        {"title": "416. Partition Equal Subset Sum", "url": "https://leetcode.com/problems/partition-equal-subset-sum/", "difficulty": "Medium"},
+        {"title": "494. Target Sum", "url": "https://leetcode.com/problems/target-sum/", "difficulty": "Medium"},
+        {"title": "1049. Last Stone Weight II", "url": "https://leetcode.com/problems/last-stone-weight-ii/", "difficulty": "Medium"},
+        {"title": "474. Ones and Zeroes", "url": "https://leetcode.com/problems/ones-and-zeroes/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Binary Tree Traversal",
+      "category": "Tree",
+      "difficulty": "Easy-Medium",
+      "frequency": "High",
+      "description": "Navigate tree in different orders",
+      "keyIdea": "Preorder (Root-Left-Right), Inorder (Left-Root-Right), Postorder (Left-Right-Root)",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(h)",
+      "template": "// Binary Tree Traversal Templates\npublic class TreeTraversal {\n    // Preorder: Root -> Left -> Right\n    public List<Integer> preorder(TreeNode root) {\n        List<Integer> result = new ArrayList<>();\n        preorderHelper(root, result);\n        return result;\n    }\n    \n    private void preorderHelper(TreeNode node, List<Integer> result) {\n        if (node == null) return;\n        result.add(node.val);\n        preorderHelper(node.left, result);\n        preorderHelper(node.right, result);\n    }\n    \n    // Inorder: Left -> Root -> Right\n    public List<Integer> inorder(TreeNode root) {\n        List<Integer> result = new ArrayList<>();\n        Stack<TreeNode> stack = new Stack<>();\n        TreeNode curr = root;\n        \n        while (curr != null || !stack.isEmpty()) {\n            while (curr != null) {\n                stack.push(curr);\n                curr = curr.left;\n            }\n            curr = stack.pop();\n            result.add(curr.val);\n            curr = curr.right;\n        }\n        \n        return result;\n    }\n    \n    // Postorder: Left -> Right -> Root\n    public List<Integer> postorder(TreeNode root) {\n        List<Integer> result = new ArrayList<>();\n        postorderHelper(root, result);\n        return result;\n    }\n    \n    private void postorderHelper(TreeNode node, List<Integer> result) {\n        if (node == null) return;\n        postorderHelper(node.left, result);\n        postorderHelper(node.right, result);\n        result.add(node.val);\n    }\n}",
+      "problems": [
+        {"title": "144. Binary Tree Preorder Traversal", "url": "https://leetcode.com/problems/binary-tree-preorder-traversal/", "difficulty": "Easy"},
+        {"title": "94. Binary Tree Inorder Traversal", "url": "https://leetcode.com/problems/binary-tree-inorder-traversal/", "difficulty": "Easy"},
+        {"title": "145. Binary Tree Postorder Traversal", "url": "https://leetcode.com/problems/binary-tree-postorder-traversal/", "difficulty": "Easy"},
+        {"title": "105. Construct Binary Tree from Preorder and Inorder", "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Matrix Chain Multiplication (DP)",
+      "category": "DP",
+      "difficulty": "Hard",
+      "frequency": "Medium",
+      "description": "Optimize order of operations",
+      "keyIdea": "Try all possible splits and find minimum cost",
+      "timeComplexity": "O(n³)",
+      "spaceComplexity": "O(n²)",
+      "template": "// Matrix Chain Multiplication / Interval DP Template\npublic int matrixChainDP(int[] arr) {\n    int n = arr.length - 1;\n    int[][] dp = new int[n][n];\n    \n    // len is chain length\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i < n - len + 1; i++) {\n            int j = i + len - 1;\n            dp[i][j] = Integer.MAX_VALUE;\n            \n            // Try all possible splits\n            for (int k = i; k < j; k++) {\n                int cost = dp[i][k] + dp[k+1][j] \n                    + arr[i] * arr[k+1] * arr[j+1];\n                dp[i][j] = Math.min(dp[i][j], cost);\n            }\n        }\n    }\n    \n    return dp[0][n-1];\n}\n\n// Palindrome Partitioning (Similar Pattern)\npublic int minCutPalindrome(String s) {\n    int n = s.length();\n    boolean[][] isPalin = new boolean[n][n];\n    int[] dp = new int[n];\n    \n    for (int i = 0; i < n; i++) {\n        dp[i] = i; // Max cuts\n        for (int j = 0; j <= i; j++) {\n            if (s.charAt(i) == s.charAt(j) \n                && (i - j < 2 || isPalin[j+1][i-1])) {\n                isPalin[j][i] = true;\n                dp[i] = (j == 0) ? 0 : Math.min(dp[i], dp[j-1] + 1);\n            }\n        }\n    }\n    \n    return dp[n-1];\n}",
+      "problems": [
+        {"title": "312. Burst Balloons", "url": "https://leetcode.com/problems/burst-balloons/", "difficulty": "Hard"},
+        {"title": "1000. Minimum Cost to Merge Stones", "url": "https://leetcode.com/problems/minimum-cost-to-merge-stones/", "difficulty": "Hard"},
+        {"title": "132. Palindrome Partitioning II", "url": "https://leetcode.com/problems/palindrome-partitioning-ii/", "difficulty": "Hard"},
+        {"title": "1039. Minimum Score Triangulation", "url": "https://leetcode.com/problems/minimum-score-triangulation-of-polygon/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Quick Select",
+      "category": "Algorithm",
+      "difficulty": "Medium",
+      "frequency": "Medium",
+      "description": "Find kth element in unsorted array",
+      "keyIdea": "Partition array like quicksort, recurse on one side only",
+      "timeComplexity": "O(n) average, O(n²) worst",
+      "spaceComplexity": "O(1)",
+      "template": "// Quick Select Template\npublic int quickSelect(int[] nums, int k) {\n    return quickSelectHelper(nums, 0, nums.length - 1, k - 1);\n}\n\nprivate int quickSelectHelper(int[] nums, int left, int right, int k) {\n    if (left == right) return nums[left];\n    \n    // Random pivot for better average case\n    int pivotIndex = left + new Random().nextInt(right - left + 1);\n    pivotIndex = partition(nums, left, right, pivotIndex);\n    \n    if (k == pivotIndex) {\n        return nums[k];\n    } else if (k < pivotIndex) {\n        return quickSelectHelper(nums, left, pivotIndex - 1, k);\n    } else {\n        return quickSelectHelper(nums, pivotIndex + 1, right, k);\n    }\n}\n\nprivate int partition(int[] nums, int left, int right, int pivotIndex) {\n    int pivotValue = nums[pivotIndex];\n    // Move pivot to end\n    swap(nums, pivotIndex, right);\n    \n    int storeIndex = left;\n    for (int i = left; i < right; i++) {\n        if (nums[i] < pivotValue) {\n            swap(nums, i, storeIndex);\n            storeIndex++;\n        }\n    }\n    \n    // Move pivot to final position\n    swap(nums, storeIndex, right);\n    return storeIndex;\n}\n\nprivate void swap(int[] nums, int i, int j) {\n    int temp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = temp;\n}",
+      "problems": [
+        {"title": "215. Kth Largest Element in an Array", "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/", "difficulty": "Medium"},
+        {"title": "973. K Closest Points to Origin", "url": "https://leetcode.com/problems/k-closest-points-to-origin/", "difficulty": "Medium"},
+        {"title": "347. Top K Frequent Elements", "url": "https://leetcode.com/problems/top-k-frequent-elements/", "difficulty": "Medium"},
+        {"title": "324. Wiggle Sort II", "url": "https://leetcode.com/problems/wiggle-sort-ii/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Segment Tree",
+      "category": "Data Structure",
+      "difficulty": "Hard",
+      "frequency": "Medium",
+      "description": "Range queries with updates",
+      "keyIdea": "Tree where each node represents a range",
+      "timeComplexity": "O(log n) query/update",
+      "spaceComplexity": "O(n)",
+      "template": "// Segment Tree Template\nclass SegmentTree {\n    private int[] tree;\n    private int n;\n    \n    public SegmentTree(int[] nums) {\n        n = nums.length;\n        tree = new int[4 * n];\n        build(nums, 0, 0, n - 1);\n    }\n    \n    private void build(int[] nums, int node, int start, int end) {\n        if (start == end) {\n            tree[node] = nums[start];\n            return;\n        }\n        \n        int mid = start + (end - start) / 2;\n        int leftChild = 2 * node + 1;\n        int rightChild = 2 * node + 2;\n        \n        build(nums, leftChild, start, mid);\n        build(nums, rightChild, mid + 1, end);\n        \n        tree[node] = tree[leftChild] + tree[rightChild];\n    }\n    \n    public void update(int index, int value) {\n        updateHelper(0, 0, n - 1, index, value);\n    }\n    \n    private void updateHelper(int node, int start, int end, \n                             int index, int value) {\n        if (start == end) {\n            tree[node] = value;\n            return;\n        }\n        \n        int mid = start + (end - start) / 2;\n        int leftChild = 2 * node + 1;\n        int rightChild = 2 * node + 2;\n        \n        if (index <= mid) {\n            updateHelper(leftChild, start, mid, index, value);\n        } else {\n            updateHelper(rightChild, mid + 1, end, index, value);\n        }\n        \n        tree[node] = tree[leftChild] + tree[rightChild];\n    }\n    \n    public int query(int left, int right) {\n        return queryHelper(0, 0, n - 1, left, right);\n    }\n    \n    private int queryHelper(int node, int start, int end, \n                           int left, int right) {\n        if (right < start || left > end) return 0;\n        if (left <= start && end <= right) return tree[node];\n        \n        int mid = start + (end - start) / 2;\n        int leftSum = queryHelper(2 * node + 1, start, mid, left, right);\n        int rightSum = queryHelper(2 * node + 2, mid + 1, end, left, right);\n        \n        return leftSum + rightSum;\n    }\n}",
+      "problems": [
+        {"title": "307. Range Sum Query - Mutable", "url": "https://leetcode.com/problems/range-sum-query-mutable/", "difficulty": "Medium"},
+        {"title": "308. Range Sum Query 2D - Mutable", "url": "https://leetcode.com/problems/range-sum-query-2d-mutable/", "difficulty": "Hard"},
+        {"title": "315. Count of Smaller Numbers After Self", "url": "https://leetcode.com/problems/count-of-smaller-numbers-after-self/", "difficulty": "Hard"},
+        {"title": "699. Falling Squares", "url": "https://leetcode.com/problems/falling-squares/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 27,
+      "name": "LRU Cache",
+      "category": "Design",
+      "difficulty": "Medium",
+      "frequency": "Very High",
+      "description": "Cache with least recently used eviction",
+      "keyIdea": "HashMap + Doubly Linked List for O(1) operations",
+      "timeComplexity": "O(1) get/put",
+      "spaceComplexity": "O(capacity)",
+      "template": "// LRU Cache Template\nclass LRUCache {\n    class Node {\n        int key, value;\n        Node prev, next;\n        Node(int k, int v) { key = k; value = v; }\n    }\n    \n    private Map<Integer, Node> cache;\n    private int capacity;\n    private Node head, tail;\n    \n    public LRUCache(int capacity) {\n        this.capacity = capacity;\n        cache = new HashMap<>();\n        \n        head = new Node(0, 0);\n        tail = new Node(0, 0);\n        head.next = tail;\n        tail.prev = head;\n    }\n    \n    public int get(int key) {\n        if (!cache.containsKey(key)) return -1;\n        \n        Node node = cache.get(key);\n        remove(node);\n        insert(node);\n        return node.value;\n    }\n    \n    public void put(int key, int value) {\n        if (cache.containsKey(key)) {\n            remove(cache.get(key));\n        }\n        \n        if (cache.size() == capacity) {\n            remove(tail.prev);\n        }\n        \n        insert(new Node(key, value));\n    }\n    \n    private void remove(Node node) {\n        cache.remove(node.key);\n        node.prev.next = node.next;\n        node.next.prev = node.prev;\n    }\n    \n    private void insert(Node node) {\n        cache.put(node.key, node);\n        node.next = head.next;\n        node.next.prev = node;\n        head.next = node;\n        node.prev = head;\n    }\n}",
+      "problems": [
+        {"title": "146. LRU Cache", "url": "https://leetcode.com/problems/lru-cache/", "difficulty": "Medium"},
+        {"title": "460. LFU Cache", "url": "https://leetcode.com/problems/lfu-cache/", "difficulty": "Hard"},
+        {"title": "1756. Design Most Recently Used Queue", "url": "https://leetcode.com/problems/design-most-recently-used-queue/", "difficulty": "Medium"},
+        {"title": "432. All O`one Data Structure", "url": "https://leetcode.com/problems/all-oone-data-structure/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 28,
+      "name": "KMP Algorithm",
+      "category": "String",
+      "difficulty": "Hard",
+      "frequency": "Low",
+      "description": "Efficient pattern matching",
+      "keyIdea": "Build prefix table to avoid redundant comparisons",
+      "timeComplexity": "O(n + m)",
+      "spaceComplexity": "O(m)",
+      "template": "// KMP Algorithm Template\npublic int strStr(String haystack, String needle) {\n    if (needle.length() == 0) return 0;\n    \n    // Build LPS (Longest Prefix Suffix) array\n    int[] lps = buildLPS(needle);\n    \n    int i = 0, j = 0; // i for haystack, j for needle\n    \n    while (i < haystack.length()) {\n        if (haystack.charAt(i) == needle.charAt(j)) {\n            i++;\n            j++;\n        }\n        \n        if (j == needle.length()) {\n            return i - j; // Pattern found\n        } else if (i < haystack.length() \n                  && haystack.charAt(i) != needle.charAt(j)) {\n            if (j != 0) {\n                j = lps[j - 1];\n            } else {\n                i++;\n            }\n        }\n    }\n    \n    return -1; // Pattern not found\n}\n\nprivate int[] buildLPS(String pattern) {\n    int[] lps = new int[pattern.length()];\n    int len = 0;\n    int i = 1;\n    \n    while (i < pattern.length()) {\n        if (pattern.charAt(i) == pattern.charAt(len)) {\n            len++;\n            lps[i] = len;\n            i++;\n        } else {\n            if (len != 0) {\n                len = lps[len - 1];\n            } else {\n                lps[i] = 0;\n                i++;\n            }\n        }\n    }\n    \n    return lps;\n}",
+      "problems": [
+        {"title": "28. Find the Index of the First Occurrence", "url": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/", "difficulty": "Easy"},
+        {"title": "214. Shortest Palindrome", "url": "https://leetcode.com/problems/shortest-palindrome/", "difficulty": "Hard"},
+        {"title": "1392. Longest Happy Prefix", "url": "https://leetcode.com/problems/longest-happy-prefix/", "difficulty": "Hard"},
+        {"title": "796. Rotate String", "url": "https://leetcode.com/problems/rotate-string/", "difficulty": "Easy"}
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Rolling Hash (Rabin-Karp)",
+      "category": "String",
+      "difficulty": "Medium",
+      "frequency": "Low",
+      "description": "Efficient substring search using hashing",
+      "keyIdea": "Use polynomial rolling hash to compare substrings",
+      "timeComplexity": "O(n) average",
+      "spaceComplexity": "O(1)",
+      "template": "// Rolling Hash Template (Rabin-Karp)\npublic class RollingHash {\n    private static final int MOD = (int) 1e9 + 7;\n    private static final int BASE = 31;\n    \n    public List<Integer> search(String text, String pattern) {\n        List<Integer> result = new ArrayList<>();\n        int n = text.length(), m = pattern.length();\n        \n        if (m > n) return result;\n        \n        // Calculate pattern hash\n        long patternHash = 0;\n        long textHash = 0;\n        long pow = 1;\n        \n        for (int i = 0; i < m; i++) {\n            patternHash = (patternHash * BASE + pattern.charAt(i)) % MOD;\n            textHash = (textHash * BASE + text.charAt(i)) % MOD;\n            if (i < m - 1) {\n                pow = (pow * BASE) % MOD;\n            }\n        }\n        \n        // Slide window\n        for (int i = 0; i <= n - m; i++) {\n            if (textHash == patternHash) {\n                // Double check to avoid hash collisions\n                if (text.substring(i, i + m).equals(pattern)) {\n                    result.add(i);\n                }\n            }\n            \n            if (i < n - m) {\n                // Remove leading character and add trailing\n                textHash = (textHash - text.charAt(i) * pow % MOD + MOD) % MOD;\n                textHash = (textHash * BASE + text.charAt(i + m)) % MOD;\n            }\n        }\n        \n        return result;\n    }\n}",
+      "problems": [
+        {"title": "28. Find the Index of the First Occurrence", "url": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/", "difficulty": "Easy"},
+        {"title": "187. Repeated DNA Sequences", "url": "https://leetcode.com/problems/repeated-dna-sequences/", "difficulty": "Medium"},
+        {"title": "1044. Longest Duplicate Substring", "url": "https://leetcode.com/problems/longest-duplicate-substring/", "difficulty": "Hard"},
+        {"title": "718. Maximum Length of Repeated Subarray", "url": "https://leetcode.com/problems/maximum-length-of-repeated-subarray/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Manacher's Algorithm",
+      "category": "String",
+      "difficulty": "Hard",
+      "frequency": "Low",
+      "description": "Find longest palindromic substring in O(n)",
+      "keyIdea": "Use previously computed palindrome info to skip comparisons",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "template": "// Manacher's Algorithm Template\npublic String longestPalindrome(String s) {\n    // Transform string to handle even/odd length palindromes\n    StringBuilder sb = new StringBuilder(\"^\");\n    for (char c : s.toCharArray()) {\n        sb.append(\"#\").append(c);\n    }\n    sb.append(\"#$\");\n    String t = sb.toString();\n    \n    int n = t.length();\n    int[] p = new int[n]; // p[i] = radius of palindrome centered at i\n    int center = 0, right = 0;\n    \n    for (int i = 1; i < n - 1; i++) {\n        int mirror = 2 * center - i;\n        \n        if (i < right) {\n            p[i] = Math.min(right - i, p[mirror]);\n        }\n        \n        // Expand around center i\n        while (t.charAt(i + p[i] + 1) == t.charAt(i - p[i] - 1)) {\n            p[i]++;\n        }\n        \n        // Update center and right if needed\n        if (i + p[i] > right) {\n            center = i;\n            right = i + p[i];\n        }\n    }\n    \n    // Find longest palindrome\n    int maxLen = 0, centerIndex = 0;\n    for (int i = 1; i < n - 1; i++) {\n        if (p[i] > maxLen) {\n            maxLen = p[i];\n            centerIndex = i;\n        }\n    }\n    \n    int start = (centerIndex - maxLen) / 2;\n    return s.substring(start, start + maxLen);\n}",
+      "problems": [
+        {"title": "5. Longest Palindromic Substring", "url": "https://leetcode.com/problems/longest-palindromic-substring/", "difficulty": "Medium"},
+        {"title": "647. Palindromic Substrings", "url": "https://leetcode.com/problems/palindromic-substrings/", "difficulty": "Medium"},
+        {"title": "214. Shortest Palindrome", "url": "https://leetcode.com/problems/shortest-palindrome/", "difficulty": "Hard"},
+        {"title": "336. Palindrome Pairs", "url": "https://leetcode.com/problems/palindrome-pairs/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Cyclic Sort",
+      "category": "Array",
+      "difficulty": "Easy-Medium",
+      "frequency": "High",
+      "description": "Sort array with numbers in range 1 to N in O(n)",
+      "keyIdea": "Place each number at its correct index (i.e., nums[i] should be at index nums[i]-1)",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Cyclic Sort Template\npublic void cyclicSort(int[] nums) {\n    int i = 0;\n    while (i < nums.length) {\n        int correct = nums[i] - 1; // Value 1 goes to index 0\n        if (nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[correct]) {\n            swap(nums, i, correct);\n        } else {\n            i++;\n        }\n    }\n}\n\nprivate void swap(int[] nums, int i, int j) {\n    int temp = nums[i];\n    nums[i] = nums[j];\n    nums[j] = temp;\n}",
+      "problems": [
+        {"title": "268. Missing Number", "url": "https://leetcode.com/problems/missing-number/", "difficulty": "Easy"},
+        {"title": "448. Find All Numbers Disappeared in an Array", "url": "https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/", "difficulty": "Easy"},
+        {"title": "287. Find the Duplicate Number", "url": "https://leetcode.com/problems/find-the-duplicate-number/", "difficulty": "Medium"},
+        {"title": "41. First Missing Positive", "url": "https://leetcode.com/problems/first-missing-positive/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 32,
+      "name": "In-place Reversal of a LinkedList",
+      "category": "Linked List",
+      "difficulty": "Medium",
+      "frequency": "Medium",
+      "description": "Reverse a linked list or sub-list in-place",
+      "keyIdea": "Maintain prev, curr, next pointers and reverse links",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Reverse Linked List Template\npublic ListNode reverseList(ListNode head) {\n    ListNode prev = null;\n    ListNode curr = head;\n    while (curr != null) {\n        ListNode next = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = next;\n    }\n    return prev;\n}\n\n// Reverse Sublist\npublic ListNode reverseBetween(ListNode head, int left, int right) {\n    if (head == null) return null;\n    ListNode dummy = new ListNode(0);\n    dummy.next = head;\n    ListNode prev = dummy;\n    \n    for (int i = 0; i < left - 1; i++) prev = prev.next;\n    \n    ListNode curr = prev.next;\n    for (int i = 0; i < right - left; i++) {\n        ListNode next = curr.next;\n        curr.next = next.next;\n        next.next = prev.next;\n        prev.next = next;\n    }\n    return dummy.next;\n}",
+      "problems": [
+        {"title": "206. Reverse Linked List", "url": "https://leetcode.com/problems/reverse-linked-list/", "difficulty": "Easy"},
+        {"title": "92. Reverse Linked List II", "url": "https://leetcode.com/problems/reverse-linked-list-ii/", "difficulty": "Medium"},
+        {"title": "25. Reverse Nodes in k-Group", "url": "https://leetcode.com/problems/reverse-nodes-in-k-group/", "difficulty": "Hard"},
+        {"title": "61. Rotate List", "url": "https://leetcode.com/problems/rotate-list/", "difficulty": "Medium"}
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Fenwick Tree (Binary Indexed Tree)",
+      "category": "Data Structure",
+      "difficulty": "Hard",
+      "frequency": "Medium",
+      "description": "Efficiently calculate prefix sums and update values",
+      "keyIdea": "Use binary representation of index to store partial sums",
+      "timeComplexity": "O(log n)",
+      "spaceComplexity": "O(n)",
+      "template": "// Fenwick Tree Template\nclass FenwickTree {\n    int[] tree;\n    int n;\n    \n    public FenwickTree(int n) {\n        this.n = n;\n        tree = new int[n + 1];\n    }\n    \n    public void update(int i, int delta) {\n        i++; // 1-based indexing\n        while (i <= n) {\n            tree[i] += delta;\n            i += i & (-i);\n        }\n    }\n    \n    public int query(int i) {\n        i++;\n        int sum = 0;\n        while (i > 0) {\n            sum += tree[i];\n            i -= i & (-i);\n        }\n        return sum;\n    }\n    \n    public int rangeSum(int i, int j) {\n        return query(j) - query(i - 1);\n    }\n}",
+      "problems": [
+        {"title": "307. Range Sum Query - Mutable", "url": "https://leetcode.com/problems/range-sum-query-mutable/", "difficulty": "Medium"},
+        {"title": "315. Count of Smaller Numbers After Self", "url": "https://leetcode.com/problems/count-of-smaller-numbers-after-self/", "difficulty": "Hard"},
+        {"title": "493. Reverse Pairs", "url": "https://leetcode.com/problems/reverse-pairs/", "difficulty": "Hard"},
+        {"title": "327. Count of Range Sum", "url": "https://leetcode.com/problems/count-of-range-sum/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Line Sweep",
+      "category": "Algorithm",
+      "difficulty": "Medium-Hard",
+      "frequency": "High",
+      "description": "Process events in sorted order (e.g., time points)",
+      "keyIdea": "Sort start and end points, iterate through them maintaining state",
+      "timeComplexity": "O(n log n)",
+      "spaceComplexity": "O(n)",
+      "template": "// Line Sweep Template\npublic int lineSweep(int[][] intervals) {\n    // Map stores point -> count change\n    TreeMap<Integer, Integer> map = new TreeMap<>();\n    \n    for (int[] interval : intervals) {\n        map.put(interval[0], map.getOrDefault(interval[0], 0) + 1);\n        map.put(interval[1], map.getOrDefault(interval[1], 0) - 1);\n    }\n    \n    int count = 0, max = 0;\n    for (int val : map.values()) {\n        count += val;\n        max = Math.max(max, count);\n    }\n    \n    return max;\n}",
+      "problems": [
+        {"title": "253. Meeting Rooms II", "url": "https://leetcode.com/problems/meeting-rooms-ii/", "difficulty": "Medium"},
+        {"title": "218. The Skyline Problem", "url": "https://leetcode.com/problems/the-skyline-problem/", "difficulty": "Hard"},
+        {"title": "1288. Remove Covered Intervals", "url": "https://leetcode.com/problems/remove-covered-intervals/", "difficulty": "Medium"},
+        {"title": "732. My Calendar III", "url": "https://leetcode.com/problems/my-calendar-iii/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Minimum Spanning Tree (MST)",
+      "category": "Graph",
+      "difficulty": "Hard",
+      "frequency": "Medium",
+      "description": "Find subset of edges connecting all vertices with minimum total weight",
+      "keyIdea": "Kruskal's (sort edges, union-find) or Prim's (grow tree from start node)",
+      "timeComplexity": "O(E log E) or O(E log V)",
+      "spaceComplexity": "O(V + E)",
+      "template": "// Kruskal's Algorithm Template\npublic int minSpanningTree(int n, int[][] edges) {\n    Arrays.sort(edges, (a, b) -> a[2] - b[2]); // Sort by weight\n    UnionFind uf = new UnionFind(n);\n    int cost = 0;\n    int edgesCount = 0;\n    \n    for (int[] edge : edges) {\n        if (uf.union(edge[0], edge[1])) {\n            cost += edge[2];\n            edgesCount++;\n        }\n    }\n    \n    return edgesCount == n - 1 ? cost : -1; // -1 if not connected\n}",
+      "problems": [
+        {"title": "1135. Connecting Cities With Minimum Cost", "url": "https://leetcode.com/problems/connecting-cities-with-minimum-cost/", "difficulty": "Medium"},
+        {"title": "1584. Min Cost to Connect All Points", "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/", "difficulty": "Medium"},
+        {"title": "1489. Find Critical and Pseudo-Critical Edges", "url": "https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/", "difficulty": "Hard"},
+        {"title": "1168. Optimize Water Distribution in a Village", "url": "https://leetcode.com/problems/optimize-water-distribution-in-a-village/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Floyd Warshall Algorithm",
+      "category": "Graph",
+      "difficulty": "Medium-Hard",
+      "frequency": "Low-Medium",
+      "description": "Find shortest paths between all pairs of vertices",
+      "keyIdea": "DP approach: dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])",
+      "timeComplexity": "O(V³)",
+      "spaceComplexity": "O(V²)",
+      "template": "// Floyd Warshall Template\npublic void floydWarshall(int n, int[][] edges) {\n    int[][] dist = new int[n][n];\n    for (int[] row : dist) Arrays.fill(row, Integer.MAX_VALUE / 2);\n    for (int i = 0; i < n; i++) dist[i][i] = 0;\n    \n    for (int[] edge : edges) {\n        dist[edge[0]][edge[1]] = edge[2];\n        // dist[edge[1]][edge[0]] = edge[2]; // If undirected\n    }\n    \n    for (int k = 0; k < n; k++) {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);\n            }\n        }\n    }\n}",
+      "problems": [
+        {"title": "1334. Find the City With the Smallest Number of Neighbors", "url": "https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/", "difficulty": "Medium"},
+        {"title": "1462. Course Schedule IV", "url": "https://leetcode.com/problems/course-schedule-iv/", "difficulty": "Medium"},
+        {"title": "399. Evaluate Division", "url": "https://leetcode.com/problems/evaluate-division/", "difficulty": "Medium"},
+        {"title": "2642. Design Graph With Shortest Path Calculator", "url": "https://leetcode.com/problems/design-graph-with-shortest-path-calculator/", "difficulty": "Hard"}
+      ]
+    },
+    {
+      "id": 37,
+      "name": "Boyer-Moore Voting Algorithm",
+      "category": "Array",
+      "difficulty": "Easy-Medium",
+      "frequency": "Medium",
+      "description": "Find majority element in O(n) time and O(1) space",
+      "keyIdea": "Maintain candidate and counter; increment if same, decrement if different",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "template": "// Boyer-Moore Voting Template\npublic int majorityElement(int[] nums) {\n    int count = 0;\n    Integer candidate = null;\n    \n    for (int num : nums) {\n        if (count == 0) {\n            candidate = num;\n        }\n        count += (num == candidate) ? 1 : -1;\n    }\n    \n    return candidate;\n}",
+      "problems": [
+        {"title": "169. Majority Element", "url": "https://leetcode.com/problems/majority-element/", "difficulty": "Easy"},
+        {"title": "229. Majority Element II", "url": "https://leetcode.com/problems/majority-element-ii/", "difficulty": "Medium"},
+        {"title": "1150. Check If a Number Is Majority Element in a Sorted Array", "url": "https://leetcode.com/problems/check-if-a-number-is-majority-element-in-a-sorted-array/", "difficulty": "Easy"}
+      ]
+    }
+  ],
+  "complexity": [
+    {
+      "algorithm": "Binary Search",
+      "time": "O(log n)",
+      "space": "O(1)",
+      "useCases": "Sorted arrays, answer-based problems, finding boundaries"
+    },
+    {
+      "algorithm": "Two Pointers",
+      "time": "O(n)",
+      "space": "O(1)",
+      "useCases": "Sorted array problems, palindrome checking, removing duplicates"
+    },
+    {
+      "algorithm": "Sliding Window",
+      "time": "O(n)",
+      "space": "O(k)",
+      "useCases": "Subarray/substring problems, finding max/min in window"
+    },
+    {
+      "algorithm": "BFS",
+      "time": "O(V + E)",
+      "space": "O(V)",
+      "useCases": "Shortest path, level-order traversal, nearest neighbor"
+    },
+    {
+      "algorithm": "DFS",
+      "time": "O(V + E)",
+      "space": "O(h) or O(V)",
+      "useCases": "Path finding, cycle detection, topological sort"
+    },
+    {
+      "algorithm": "Quick Sort",
+      "time": "O(n log n) avg",
+      "space": "O(log n)",
+      "useCases": "In-place sorting, randomized algorithms"
+    },
+    {
+      "algorithm": "Merge Sort",
+      "time": "O(n log n)",
+      "space": "O(n)",
+      "useCases": "Stable sorting, external sorting, divide and conquer"
+    },
+    {
+      "algorithm": "Heap Operations",
+      "time": "O(log n) insert/delete",
+      "space": "O(n)",
+      "useCases": "Priority queue, top-k problems, median finding"
+    },
+    {
+      "algorithm": "Hash Table",
+      "time": "O(1) avg",
+      "space": "O(n)",
+      "useCases": "Fast lookups, frequency counting, two sum type problems"
+    },
+    {
+      "algorithm": "Dynamic Programming",
+      "time": "O(n²) typical",
+      "space": "O(n) or O(n²)",
+      "useCases": "Optimization problems, counting problems, subsequences"
+    },
+    {
+      "algorithm": "Union-Find",
+      "time": "O(α(n)) amortized",
+      "space": "O(n)",
+      "useCases": "Dynamic connectivity, graph components, cycle detection"
+    },
+    {
+      "algorithm": "Trie Operations",
+      "time": "O(m) per operation",
+      "space": "O(ALPHABET × N × M)",
+      "useCases": "Prefix matching, autocomplete, word search"
+    },
+    {
+      "algorithm": "Segment Tree",
+      "time": "O(log n) query/update",
+      "space": "O(n)",
+      "useCases": "Range queries with updates, dynamic arrays"
+    },
+    {
+      "algorithm": "Dijkstra",
+      "time": "O((V+E) log V)",
+      "space": "O(V)",
+      "useCases": "Single-source shortest path in weighted graphs"
+    },
+    {
+      "algorithm": "Backtracking",
+      "time": "O(2ⁿ) or O(n!)",
+      "space": "O(n)",
+      "useCases": "Permutations, combinations, constraint satisfaction"
+    }
+  ]
+}
